@@ -21,7 +21,7 @@ check_update() {
 
       if [ -n "$latest_version" ]; then
         if [ "$latest_version" != "$VERSION" ]; then
-          echo "New version available: v$latest_version (current: v$VERSION)"
+          echo "New version available: v${latest_version} (current: v${VERSION})"
           echo "Run 'c9cli update' to update."
         else
           echo "You are using the latest version (v$VERSION)."
