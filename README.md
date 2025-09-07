@@ -18,7 +18,7 @@ c9cli is a command-line interface tool for managing Cloud9 workspaces and Docker
 Make sure you have root access before doing this installation.
 
 ```bash
-sudo curl -fsSL https://raw.githubusercontent.com/gimanelizabeth899/c9cli/main/build.sh | sudo bash
+sudo curl -fsSL https://raw.githubusercontent.com/gimanelizabeth899/c9cli/refs/heads/master/build.sh | sudo bash
 ```
 
 ## Usage
