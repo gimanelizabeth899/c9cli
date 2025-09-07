@@ -253,7 +253,7 @@ createnewsystemd() {
     ;;
   esac
 
-  cat >/lib/systemd/system/c9-$user.service <&2 ;;
+  cat >/lib/systemd/system/c9-$user.service <&2 ;
     esac
   done
 
