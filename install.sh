@@ -1,6 +1,5 @@
 #!/bin/bash
 
-export DEBIAN_FRONTEND=noninteractive
 
 # Check Ubuntu Version
 ubuntu_version=$(lsb_release -r | awk '{print $2}')
