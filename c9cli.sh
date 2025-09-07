@@ -81,7 +81,7 @@ about() {
   echo "Tested on     :"
   echo "    - Debian  : Ubuntu 18.04, 20.04, 22.04"
   echo
-  echo "Built with love♡ by gvoze32"
+  echo "Built with loveâ™¡ by gvoze32"
 }
 # =========== DON'T CHANGE THE ORDER OF THIS FUNCTION =========== #
 
@@ -145,7 +145,7 @@ bantuan() {
   echo "-s                  : Backup service provider"
   echo
   echo "Copyright (c) 2024 c9cli (under MIT License)"
-  echo "Built with love♡ by gvoze32"
+  echo "Built with loveâ™¡ by gvoze32"
 }
 
 # CREATE SYSTEMD
@@ -200,43 +200,7 @@ createnewsystemd() {
     ;;
   esac
 
-  cat >/lib/systemd/system/c9-$user.service <<EOF
-[Unit]
-Description=c9 for $user
-After=network.target
-
-[Service]
-Type=simple
-ExecStart=/usr/bin/node /home/${user}/c9sdk/server.js -a $user:$pw --listen 0.0.0.0 --packed -w /home/$user/my-projects
-Environment=NODE_ENV=production PORT=$port
-User=$user
-Group=$user
-UMask=0002
-Restart=on-failure
-StandardOutput=journal
-StandardError=journal
-SyslogIdentifier=c9-$user
-
-[Install]
-WantedBy=multi-user.target
-EOF
-
-  systemctl daemon-reload
-  systemctl enable c9-$user.service
-  systemctl restart c9-$user.service
-  sleep 10
-  systemctl status c9-$user.service
-}
-
-createnewsystemdlimit() {
-  while getopts "u:p:o:l:c:" opt; do
-    case $opt in
-    u) user="$OPTARG" ;;
-    p) pw="$OPTARG" ;;
-    o) port="$OPTARG" ;;
-    l) limit="$OPTARG" ;;
-    c) cpu_limit="$OPTARG" ;;
-    \?) echo "Invalid option: -$OPTARG" >&2 ;;
+  cat >/lib/systemd/system/c9-$user.service <&2 ;;
     esac
   done
 
@@ -288,44 +252,7 @@ createnewsystemdlimit() {
     ;;
   esac
 
-  cat >/lib/systemd/system/c9-$user.service <<EOF
-[Unit]
-Description=c9 for $user
-After=network.target
-
-[Service]
-Type=simple
-ExecStart=/usr/bin/node /home/${user}/c9sdk/server.js -a $user:$pw --listen 0.0.0.0 --packed -w /home/$user/my-projects
-Environment=NODE_ENV=production PORT=$port
-User=$user
-Group=$user
-UMask=0002
-MemoryMax=$limit
-CPUQuota=$cpu_limit
-Restart=on-failure
-StandardOutput=journal
-StandardError=journal
-SyslogIdentifier=c9-$user
-
-[Install]
-WantedBy=multi-user.target
-EOF
-
-  systemctl daemon-reload
-  systemctl enable c9-$user.service
-  systemctl restart c9-$user.service
-  sleep 10
-  systemctl status c9-$user.service
-}
-
-createnewdocker() {
-  while getopts "u:p:o:i:" opt; do
-    case $opt in
-    u) user="$OPTARG" ;;
-    p) pw="$OPTARG" ;;
-    o) port="$OPTARG" ;;
-    i) image="$OPTARG" ;;
-    \?) echo "Invalid option: -$OPTARG" >&2 ;;
+  cat >/lib/systemd/system/c9-$user.service <&2 ;;
     esac
   done
 
@@ -366,38 +293,7 @@ createnewdocker() {
 
   cd /home/c9users
   rm .env
-  cat >/home/c9users/.env <<EOF
-NAMA_PELANGGAN=$user
-PASSWORD_PELANGGAN=$pw
-PORT=$port
-DOCKER_IMAGE=$image
-EOF
-  docker compose -p $user up -d
-  if [ -d "/home/c9users/$user" ]; then
-    cd /home/c9users/$user
-
-    ### Your custom default bundling files goes here, it's recommended to put it on resources directory
-    ### START
-
-    ### END
-
-    cd
-  else
-    echo -e "\033[33mWARN! Workspace directory not found - Ignore this message if you are not adding default bundling files\033[0m"
-  fi
-}
-
-# CREATE DOCKERLIMIT
-createnewdockermemlimit() {
-  while getopts "u:p:o:l:c:i:" opt; do
-    case $opt in
-    u) user="$OPTARG" ;;
-    p) pw="$OPTARG" ;;
-    o) port="$OPTARG" ;;
-    l) limit="$OPTARG" ;;
-    c) cpu_limit="$OPTARG" ;;
-    i) image="$OPTARG" ;;
-    \?) echo "Invalid option: -$OPTARG" >&2 ;;
+  cat >/home/c9users/.env <&2 ;;
     esac
   done
 
@@ -446,36 +342,7 @@ createnewdockermemlimit() {
 
   cd /home/c9usersmemlimit
   rm .env
-  cat >/home/c9usersmemlimit/.env <<EOF
-NAMA_PELANGGAN=$user
-PASSWORD_PELANGGAN=$pw
-PORT=$port
-MEMORY=$limit
-CPU_LIMIT=$cpu_limit
-DOCKER_IMAGE=$image
-EOF
-  docker compose -p $user up -d
-  if [ -d "/home/c9usersmemlimit/$user" ]; then
-    cd /home/c9usersmemlimit/$user
-
-    ### Your custom default bundling files goes here, it's recommended to put it on resources directory
-    ### START
-
-    ### END
-
-    cd
-  else
-    echo -e "\033[33mWARN! Workspace directory not found - Ignore this message if you are not adding default bundling files\033[0m"
-  fi
-}
-
-# MANAGE SYSTEMD
-
-stopsystemd() {
-  while getopts "u:" opt; do
-    case $opt in
-    u) user="$OPTARG" ;;
-    \?) echo "Invalid option: -$OPTARG" >&2 ;;
+  cat >/home/c9usersmemlimit/.env <&2 ;;
     esac
   done
 
@@ -608,42 +475,7 @@ schedulesystemd() {
   echo "midnight"
   echo " "
   read -p "Time: " waktu
-  at $waktu <<END
-sleep 3
-systemctl stop c9-$user.service
-# OPTIONAL: Remove user directory
-# sleep 3
-# killall -u $user
-# sleep 3
-# userdel $user
-END
-}
-
-scheduledatq() {
-  atq
-}
-
-convertsystemd() {
-  read -p "Input User: " user
-  echo "Input user password"
-  passwd $user
-  echo "Warning, C9 will be restart!"
-  usermod -aG sudo $user
-  systemctl daemon-reload
-  systemctl enable c9-$user.service
-  systemctl restart c9-$user.service
-  sleep 10
-  systemctl status c9-$user.service
-}
-
-# MANAGE DOCKER
-
-stopdocker() {
-  while getopts "u:t:" opt; do
-    case $opt in
-    u) user="$OPTARG" ;;
-    t) type="$OPTARG" ;;
-    \?) echo "Invalid option: -$OPTARG" >&2 ;;
+  at $waktu <&2 ;;
     esac
   done
 
@@ -804,151 +636,7 @@ changepassworddocker() {
 
   cd "$base_dir" || return
 
-  cat >.env <<EOF
-NAMA_PELANGGAN=$user
-PASSWORD_PELANGGAN=$newpw
-PORT=$port
-EOF
-
-  if [ "$response" = "2" ]; then
-    cat >>.env <<EOF
-MEMORY=$mem
-CPU_LIMIT=$cpu_limit
-DOCKER_IMAGE=gvoze32/cloud9:jammy
-EOF
-  fi
-
-  if [ -d "$base_dir/$user" ]; then
-    cd "$base_dir/$user" || return
-    cat >.env <<EOF
-PORT=$port
-NAMA_PELANGGAN=$user
-PASSWORD_PELANGGAN=$newpw
-EOF
-
-    if [ "$response" = "2" ]; then
-      cat >>.env <<EOF
-MEMORY=$mem
-CPU_LIMIT=$cpu_limit
-EOF
-    fi
-
-    cd "$base_dir"
-    echo "Password, port and .env updated for user $user"
-    docker compose -p $user down
-    docker compose -p $user up -d
-    echo "Docker container recreated for user $user"
-  else
-    echo "User $user does not exist or workspace directory not found"
-  fi
-}
-
-scheduledocker() {
-  read -p "Input User: " user
-  echo Are the file is using docker or dockermemlimit?
-  read -r -p "Answer Y if you are using docker and answer N if you are using dockermemlimit [y/N] " response
-  echo " "
-  echo "Format Example for Time: "
-  echo " "
-  echo "10:00 AM 6/22/2015"
-  echo "10:00 AM July 25"
-  echo "10:00 AM"
-  echo "10:00 AM Sun"
-  echo "10:00 AM next month"
-  echo "10:00 AM tomorrow"
-  echo "now + 1 hour"
-  echo "now + 30 minutes"
-  echo "now + 1 week"
-  echo "now + 1 year"
-  echo "midnight"
-  echo " "
-  read -p "Time: " waktu
-  case "$response" in
-  [yY][eE][sS] | [yY])
-    at $waktu <<END
-cd /home/c9users
-docker compose -p $user stop
-# OPTIONAL: Remove user setup
-# docker compose -p $user down
-END
-    ;;
-  *)
-    at $waktu <<END
-cd /home/c9usersmemlimit
-docker compose -p $user stop
-# OPTIONAL: Remove user setup
-# docker compose -p $user down
-END
-    ;;
-  esac
-}
-
-configuredocker() {
-  read -p "Input User: " user
-  echo 1. Stop
-  echo 2. Start
-  echo 3. Restart
-  read -r -p "Choose: " response
-  case "$restart" in
-  1)
-    echo Are the file is using Docker or Docker Memory Limit?
-    echo 1. Docker
-    echo 2. Docker Memory Limit
-    read -r -p "Choose: " response
-    case "$response" in
-    1)
-      cd /home/c9users
-      ;;
-    *)
-      cd /home/c9usersmemlimit
-      ;;
-    esac
-    docker container stop $user
-    # OPTIONAL: Remove user setup
-    # docker compose -p $user down
-    ;;
-  2)
-    echo Are the file is using Docker or Docker Memory Limit?
-    echo 1. Docker
-    echo 2. Docker Memory Limit
-    read -r -p "Choose: " response
-    case "$response" in
-    1)
-      cd /home/c9users
-      ;;
-    *)
-      cd /home/c9usersmemlimit
-      ;;
-    esac
-    docker container start $user
-    ;;
-  *)
-    echo Are the file is using Docker or Docker Memory Limit?
-    echo 1. Docker
-    echo 2. Docker Memory Limit
-    read -r -p "Choose: " response
-    case "$response" in
-    1)
-      cd /home/c9users
-      ;;
-    *)
-      cd /home/c9usersmemlimit
-      ;;
-    esac
-    docker container stop $user
-    docker container start $user
-    # OPTIONAL: Remove user setup
-    # docker compose -p $user down
-    # docker compose -p $user up -d
-    ;;
-  esac
-}
-
-restartdocker() {
-  while getopts "u:" opt; do
-    case $opt in
-    u) user="$OPTARG" ;;
-    \?) echo "Invalid option: -$OPTARG" >&2 ;;
+  cat >.env <>.env <.env <>.env <&2 ;;
     esac
   done
 
@@ -1083,13 +771,7 @@ backups() {
     ;;
   esac
 
-  cat >/home/backup-$name.sh <<EOF
-#!/bin/bash
-date=\$(date +%Y%m%d)
-log_file="/home/backup-$name.log"
-
-log_message() {
-    echo "\$(date '+%Y-%m-%d %H:%M:%S') - \$1" >> "\$log_file"
+  cat >/home/backup-$name.sh <> "\$log_file"
 }
 
 verify_backup() {
