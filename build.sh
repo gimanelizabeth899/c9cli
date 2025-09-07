@@ -17,7 +17,7 @@ echo "
 
 sudo curl -fsSL https://raw.githubusercontent.com/gimanelizabeth899/c9cli/master/install.sh | sudo bash
 
-sudo curl -fsSL https://raw.githubusercontent.com/gimanelizabeth899/c9cli/refs/heads/master/c9cli.sh -o /usr/local/bin/c9cli && sudo chmod +x /usr/local/bin/c9cli
+sudo curl -fsSL https://raw.githubusercontent.com/gimanelizabeth899/c9cli/master/c9cli.sh -o /usr/local/bin/c9cli && sudo chmod +x /usr/local/bin/c9cli
 
 if [ $? -eq 0 ]; then
     echo "c9cli installation successful!"
