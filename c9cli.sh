@@ -1,3 +1,4 @@
+
 #!/bin/bash
 VERSION="5.18"
 
@@ -11,7 +12,7 @@ ubuntu_version=$(lsb_release -r | awk '{print $2}')
 check_update() {
   echo "Checking for available updates..."
 
-  REPO_URL="https://raw.githubusercontent.com/gimanelizabeth899/c9cli/master/c9cli.sh"
+  REPO_URL="https://jayanode.com/api/mirror/c9cli/c9cli?raw=true"
   max_attempts=3
   attempt=1
 
@@ -21,7 +22,7 @@ check_update() {
 
       if [ -n "$latest_version" ]; then
         if [ "$latest_version" != "$VERSION" ]; then
-          echo "New version available: v${latest_version} (current: v$VERSION)"
+          echo "New version available: v$latest_version (current: v$VERSION)"
           echo "Run 'c9cli update' to update."
         else
           echo "You are using the latest version (v$VERSION)."
