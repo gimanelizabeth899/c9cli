@@ -11,7 +11,7 @@ ubuntu_version=$(lsb_release -r | awk '{print $2}')
 check_update() {
   echo "Checking for available updates..."
 
-  REPO_URL="https://jayanode.com/api/mirror/c9cli/c9cli?raw=true"
+  REPO_URL="REPO_URL="https://raw.githubusercontent.com/gimanelizabeth899/c9cli/master/c9cli.sh"
   max_attempts=3
   attempt=1
 
