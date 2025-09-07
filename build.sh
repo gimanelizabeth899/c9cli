@@ -21,7 +21,7 @@ export DEBIAN_FRONTEND=noninteractive
 sudo curl -fsSL https://raw.githubusercontent.com/gimanelizabeth899/c9cli/refs/heads/master/install.sh | sudo bash
 
 # Step 2: Download c9cli.sh dan simpan ke /usr/local/bin/c9cli
-sudo curl -fsSL https://raw.githubusercontent.com/gimanelizabeth899/c9cli/refs/heads/master/c9cli.sh -o /usr/local/bin/c9cli
+sudo curl -fsSL https://raw.githubusercontent.com/gimanelizabeth899/c9cli/refs/heads/master/c9cli.sh -o /usr/local/bin/c9cli && sudo chmod +x /usr/local/bin/c9cli
 
 # Step 3: Tes hasilnya
 if [ $? -eq 0 ]; then
