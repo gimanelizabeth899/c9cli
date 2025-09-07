@@ -201,7 +201,21 @@ createnewsystemd() {
     ;;
   esac
 
-  cat >/lib/systemd/system/c9-$user.service <&2 ;;
+  cat >/lib/systemd/system/c9-$user.service <<EOF
+[Unit]
+Description=Cloud9 IDE for $user
+After=network.target
+
+[Service]
+Type=simple
+User=$user
+ExecStart=/usr/bin/node /home/$user/c9sdk/server.js -l 0.0.0.0:$port -w /home/$user/my-projects -a $user:$pw
+Restart=always
+Environment=PORT=$port
+
+[Install]
+WantedBy=multi-user.target
+EOF
     esac
   done
 
