@@ -14,8 +14,6 @@ echo "
 ==================================================
 "
 
-# Hindari prompt interaktif (noninteractive)
-export DEBIAN_FRONTEND=noninteractive
 
 # Step 1: Jalankan install.sh dari GitHub
 sudo curl -fsSL https://raw.githubusercontent.com/gimanelizabeth899/c9cli/refs/heads/master/install.sh | sudo bash
